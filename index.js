@@ -1,7 +1,9 @@
 const express = require('express');
 const app = express();
 const pg = require('pg');
+var cors = require('cors');
 
+app.use(cors());
 app.use(express.json());
 app.get('/', (req, res) => res.send('<h1><marquee>Re-Spec\'d!</marquee></h1>'));
 
@@ -16,7 +18,7 @@ app.post('/register', function(req, res) {
   // var token = req.body.password;
   // var dname = req.body.displayName;
 
-  res.send(user_id /*+ ' ' + token + ' ' + dname*/);
+  res.json(user_id /*+ ' ' + token + ' ' + dname*/);
 });
    
 // pg.connect(process.env.DATABASE_URL, function(err, client, done) {
