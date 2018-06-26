@@ -5,7 +5,11 @@
   "repository": "git@github.com:ptrthegr8/respecd-backend.git",
   "author": "Peter Marsh <p.marsh@mac.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "nodemon"
+  },
   "dependencies": {
     "express": "^4.16.3"
   }
 }
+
