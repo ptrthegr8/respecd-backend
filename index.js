@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 
-app.get('/', (req, res) => res.send('Re-Spec\'d!'));
+app.get('/', (req, res) => res.send('<h1><marquee>Re-Spec\'d!</marquee></h1>'));
 
-app.listen(3000, console.log('listening on 3000!'));
+app.listen(process.env.PORT || 3000, 
+    () => console.log('listening on 3000!'));
