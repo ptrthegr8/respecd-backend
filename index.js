@@ -1,7 +1,9 @@
 const express = require('express');
 const app = express();
 const pg = require('pg');
-
+var cors = require('cors');
+ 
+app.use(cors());
 app.use(express.json());
 app.get('/', (req, res) => res.send('<h1><marquee>Re-Spec\'d!</marquee></h1>'));
 
