@@ -6,7 +6,7 @@
   "author": "Peter Marsh <p.marsh@mac.com>",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon"
+    "start": "node index.js"
   },
   "dependencies": {
     "express": "^4.16.3"
