@@ -24,14 +24,16 @@ app.post('/register', user.registerUser);
 app.get('/login', login.loginUser);
 
 app.get('/glasses', glasses.getGlasses);
+app.get('/glasses/:glassId', glasses.getSingleGlass);
 app.post('/glasses', glasses.addGlass);
-app.put('/glasses', glasses.updateGlass);
-app.delete('/glasses', glasses.deleteGlass)
+app.put('/glasses/:glassId', glasses.updateGlass);
+app.delete('/glasses/:glassId', glasses.deleteGlass)
 
 app.get('/frames', frames.getFrames);
+app.get('/frames/:frameId', frames.getSingleFrame);
 app.post('/frames', frames.addFrame);
-app.put('/frames', frames.updateFrame);
-app.delete('/frames', frames.deleteFrame);
+app.put('/frames/:frameId', frames.updateFrame);
+app.delete('/frames:frameId', frames.deleteFrame);
 
 app.get('/test', (req, res) => res.send('<h1><marquee>Re-Spec\'d!</marquee></h1>'));
 // app.get('/framesnew', (req, res)=> {
