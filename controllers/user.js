@@ -23,20 +23,24 @@ function getUser(req, res, next) {
   }
   
   function registerUser(req, res, next) {
-    req.body.age = parseInt(req.body.age);
-    client.query('insert into users(x)' +
-        'values(${firstname}, ${lastname}, ${email}, ${password} )',
-      req.body)
-      .then(function () {
-        res.status(200)
-          .json({
-            status: 'success',
-            message: 'Registered a User'
+    const bcrypt = require('bcrypt');
+    bcrypt.hash(req.body.password, 10, function(err, hash) {
+        const insertUserQueryObj=  {
+          text: 'insert into users(firstname, lastname, email, password) values ($1, $2, $3, $4)',
+          values: [req.body.firstname, req.body.lastname, req.body.email, hash]
+        }
+        client.query(insertUserQueryObj)
+          .then(function () {
+            res.status(200)
+              .json({
+                status: 'success',
+                message: 'Registered a User'
+              });
+          })
+          .catch(function (err) {
+            return next(err);
           });
-      })
-      .catch(function (err) {
-        return next(err);
-      });
+    });
   }
   
   function updateUser(req, res, next) {
