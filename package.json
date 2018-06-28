@@ -17,5 +17,10 @@
     "passport-local": "^1.0.0",
     "pg": "^7.4.3",
     "pg-promise": "^8.4.4"
+  },
+  "engines":{
+    "node": "10.5.0",
+    "npm": "6.1.0"
   }
 }
+
