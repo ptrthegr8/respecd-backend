@@ -6,6 +6,8 @@ CREATE TABLE IF NOT EXISTS users(
    password VARCHAR(200)
 );
 
+DROP TABLE glasses;
+
 CREATE TABLE IF NOT EXISTS glasses(
   glassesid serial PRIMARY KEY,
   title VARCHAR(100),
@@ -30,4 +32,4 @@ insert into users(firstname ,lastname ,email ,password ) values ('peter','marsh'
 
 insert into frames(title, description, location, image, userid) values ('aaa','bbbbbbbbbbbb','ccc','ddddd',1);
 
-insert into glasses(title, leftsphere, rightsphere, description, location, image, userid)values ('mytitle', 2, 2,'dfsdfsd','dsfdsfsd','dsds',1)
+-- insert into glasses(title, leftsphere, rightsphere, description, location, image, userid)values ('mytitle', 2, 2,'dfsdfsd','dsfdsfsd','dsds',1)
