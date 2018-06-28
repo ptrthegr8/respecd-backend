@@ -26,7 +26,7 @@ function getFrames(req, res, next) {
   
   function getSingleFrame(req, res, next) {
     var frameId = parseInt(req.params.frameId);
-    client.query('select * from frames where frameid = $1', frameId)
+    client.query('select * from frames where frameid = $1', [frameId])
       .then(function (data) {
         res.status(200)
           .json({
@@ -41,10 +41,11 @@ function getFrames(req, res, next) {
   }
   
   function addFrame(req, res, next) {
-    req.body.age = parseInt(req.body.age);
-    client.query('insert into frames(title, description, location, image, userid)' +
-        'values(${title}, ${description}, ${location}, ${image}, ${userid})',
-      req.body)
+    const queryObj = {
+      text: 'insert into frames(title, description, location, image, userid) values ($1, $2, $3, $4, $5)',
+      values: [req.body.title, req.body.description, req.body.location, req.body.image, req.body.userid]
+    }
+    client.query(queryObj)
       .then(function () {
         res.status(200)
           .json({
@@ -75,7 +76,7 @@ function getFrames(req, res, next) {
   
   function deleteFrame(req, res, next) {
     var frameId = parseInt(req.params.frameId);
-    client.query('delete from frames where frameid = $1', frameId)
+    client.query('delete from frames where frameid = $1', [frameId])
       .then(function (result) {
         /* jshint ignore:start */
         res.status(200)

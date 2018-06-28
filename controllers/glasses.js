@@ -15,7 +15,7 @@ function getGlasses(req, res, next) {
         res.status(200)
           .json({
             status: 'success',
-            data: data,
+            data: data.rows,
             message: 'Retrieved ALL Glasses'
           });
       })
@@ -26,12 +26,12 @@ function getGlasses(req, res, next) {
   
   function getSingleGlass(req, res, next) {
     var glassId = parseInt(req.params.glassId);
-    client.query('select * from glasses where glassesid = $1', glassId)
+    client.query('select * from glasses where glassesid = $1', [glassId])
       .then(function (data) {
         res.status(200)
           .json({
             status: 'success',
-            data: data,
+            data: data.rows,
             message: 'Retrieved ONE Glass'
           });
       })
@@ -41,15 +41,17 @@ function getGlasses(req, res, next) {
   }
   
   function addGlass(req, res, next) {
-   console.log(req.body);
-  let querystring = "insert into glasses(title, leftsphere, rightsphere, description, location, image, userid)" +
-   "values ('"+req.body.title+"', "+req.body.leftsphere+", " + req.body.rightsphere+",'" +req.body.description+"','"+req.body.location+"','"+req.body.image+"',"+req.body.userid+")";
-  console.log(querystring);
-    client.query(querystring)
-      .then(function () {
+    console.log(req.body);
+    const queryObj = {
+    text: "insert into glasses(title, leftsphere, rightsphere, description, location, image, userid) VALUES ($1, $2, $3, $4, $5, $6, $7)", 
+    values: [req.body.title, req.body.leftsphere, req.body.rightsphere, req.body.description, req.body.location, req.body.image, req.body.userid]
+    }
+    client.query(queryObj)
+      .then(function (data) {
         res.status(200)
           .json({
             status: 'success',
+            data: data,
             message: 'Inserted one Glass'
           });
       })
@@ -59,13 +61,17 @@ function getGlasses(req, res, next) {
   }
   
   function updateGlass(req, res, next) {
-    client.query('update glasses set title=$1, leftsphere=$2, rightsphere=$3, description=$4, location=$5, image=$6 where glassesid=$7',
-      [req.body.title, req.body.leftsphere,req.body.rightsphere,req.body.description, req.body.location,req.body.image,
-         parseInt(req.params.glassId)])
-      .then(function () {
+    const queryObj = {
+      text: 'update glasses set title=$1, leftsphere=$2, rightsphere=$3, description=$4, location=$5, image=$6 where glassesid=$7',
+      values: [req.body.title, req.body.leftsphere,req.body.rightsphere,req.body.description, req.body.location,req.body.image,
+        parseInt(req.params.glassId)]
+    }
+    client.query(queryObj)
+      .then(function (data) {
         res.status(200)
           .json({
             status: 'success',
+            data: data,
             message: 'Updated a Glass'
           });
       })
@@ -76,7 +82,7 @@ function getGlasses(req, res, next) {
   
   function deleteGlass(req, res, next) {
     var glassId = parseInt(req.params.glassId);
-    client.query('delete from glasses where glassesid = $1', glassId)
+    client.query('delete from glasses where glassesid = $1', [glassId])
       .then(function (result) {
        
         res.status(200)
