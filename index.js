@@ -35,7 +35,7 @@ app.post('/frames', frames.addFrame);
 app.put('/frames/:frameId', frames.updateFrame);
 app.delete('/frames:frameId', frames.deleteFrame);
 
-app.get('/test', (req, res) => res.send('<h1><marquee>Re-Spec\'d!</marquee></h1>'));
+app.get('/test', (req, res) => res.send('<h1><marquee>Re-Spec\'d Testtttttt!</marquee></h1>'));
 // app.get('/framesnew', (req, res)=> {
 //     client.query('SELECT * FROM Frames', function(err, result) {
 //         if(err) return console.error(err);
