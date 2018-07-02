@@ -21,7 +21,8 @@ app.use(express.json());
 const port = process.env.PORT || 3000;
 
 app.post('/register', user.registerUser);
-app.get('/login', login.loginUser);
+app.post('/login', login.loginUser);
+app.get('/logout', login.logoutUser);
 
 app.get('/glasses', glasses.getGlasses);
 app.get('/glasses/:glassId', glasses.getSingleGlass);
@@ -36,12 +37,6 @@ app.put('/frames/:frameId', frames.updateFrame);
 app.delete('/frames:frameId', frames.deleteFrame);
 
 app.get('/test', (req, res) => res.send('<h1><marquee>Re-Spec\'d Testtttttt!</marquee></h1>'));
-// app.get('/framesnew', (req, res)=> {
-//     client.query('SELECT * FROM Frames', function(err, result) {
-//         if(err) return console.error(err);
-//         console.log(result.rows);
-//       });
-// });  
 
 app.listen(port, function() {
   console.log("Listening on " + port);
