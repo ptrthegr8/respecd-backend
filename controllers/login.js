@@ -1,24 +1,42 @@
 const pg = require('pg');
 const connectionString = process.env.DATABASE_URL || 'respecdlocal';
 const client = new pg.Client(connectionString);
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const config = require('../config');
+
 client.connect();
 
 function loginUser(req, res, next) {
-    var userId = parseInt(req.params.userId);
-    client.query('select * from users where userid = $1', userId)
+    let email =req.body.email;
+    let password = req.body.password;
+    console.log(email,password);
+    let selectQuery = 'select * from users where email = $1'
+    let updateQuery = 'update users set lastlogin=now() where userid=$1';
+    
+    client.query(selectQuery, [email])
       .then(function (data) {
-        res.status(200)
-          .json({
-            status: 'success',
-            data: data,
-            message: 'Retrieved user details'
+        console.log(data.rows);
+        if (!data.rows) return res.status(404).send('No user found.');
+        var passwordIsValid = bcrypt.compareSync(req.body.password, data.rows[0].password);
+        console.log(passwordIsValid)
+        if (!passwordIsValid) return res.status(401).send({ auth: false, token: null });
+        client.query(updateQuery, [parseInt(data.rows[0].userid)]);
+        var token = jwt.sign({ id: data.rows.userid }, config.secret, {
+            expiresIn: 86400 // expires in 24 hours
           });
-      })
+          res.status(200).send({ auth: true, token: token });
+        })
       .catch(function (err) {
         return next(err);
       });
 }
 
+function logoutUser(req, res, next) {
+  res.status(200).send({ auth: false, token: null });
+}
+
 module.exports = {
-    loginUser: loginUser
+    loginUser: loginUser,
+    logoutUser:logoutUser
 }
