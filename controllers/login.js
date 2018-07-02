@@ -17,15 +17,15 @@ function loginUser(req, res, next) {
     client.query(selectQuery, [email])
       .then(function (data) {
         console.log(data.rows);
-        if (!data.rows) return res.status(404).send('No user found.');
+        if (!data.rows) return res.status(404).json('No user found.');
         var passwordIsValid = bcrypt.compareSync(req.body.password, data.rows[0].password);
         console.log(passwordIsValid)
-        if (!passwordIsValid) return res.status(401).send({ auth: false, token: null });
+        if (!passwordIsValid) return res.status(401).json({ auth: false, token: null });
         client.query(updateQuery, [parseInt(data.rows[0].userid)]);
         var token = jwt.sign({ id: data.rows.userid }, config.secret, {
             expiresIn: 86400 // expires in 24 hours
           });
-          res.status(200).send({ auth: true, token: token });
+          res.status(200).json({ auth: true, token: token });
         })
       .catch(function (err) {
         return next(err);
@@ -33,7 +33,7 @@ function loginUser(req, res, next) {
 }
 
 function logoutUser(req, res, next) {
-  res.status(200).send({ auth: false, token: null });
+  res.status(200).json({ auth: false, token: null });
 }
 
 module.exports = {
