@@ -43,8 +43,8 @@ function getGlasses(req, res, next) {
   function addGlass(req, res, next) {
     console.log(req.body);
     const queryObj = {
-    text: "insert into glasses(title, leftsphere, rightsphere, description, rating, location, image, userid) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)", 
-    values: [req.body.title, req.body.leftsphere, req.body.rightsphere, req.body.description, req.body.rating, req.body.location, req.body.image, req.body.userid]
+    text: "insert into glasses(title, leftsphere, rightsphere, leftcylinder, rightcylinder, rightaxis, leftaxis, add, description, rating, location, image, userid) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)", 
+    values: [req.body.title, req.body.leftsphere, req.body.rightsphere, req.body.leftcylinder, req.body.rightcylinder, req.body.rightaxis, req.body.leftaxis, req.body.add, req.body.description, req.body.rating, req.body.location, req.body.image, req.body.userid]
     }
     client.query(queryObj)
       .then(function (data) {
