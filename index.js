@@ -6,8 +6,38 @@ const frames = require("./controllers/frames");
 const glasses = require("./controllers/glasses");
 const login = require("./controllers/login");
 const user = require("./controllers/user");
+// image upload stuff
+const AWS = require("aws-sdk");
+const multer = require('multer');
+const multerS3 = require('multer-s3');
+//
 app.use(cors());
 app.use(express.json());
+
+//variables used to access amazon cloud bucket
+const BUCKET_NAME = 'respecd';
+const IAM_USER_KEY = 'AKIAI5VSK6BGQJ6L4HJQ';
+const IAM_USER_SECRET = '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';
+
+const s3 = new AWS.S3({
+  accessKeyId: IAM_USER_KEY,
+  secretAccessKey: IAM_USER_SECRET,
+  Bucket: BUCKET_NAME
+});
+// Adding the uploaded photos to our Amazon S3 bucket
+const imageUpload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: 'respecd',
+    metadata: function (req, file, cb) {
+      const filename = `${Date.now().toString()}--${file.originalname}`
+      // if (!file.originalname.toLowerCase().match(/\.(jpg|jpeg|png|gif)$/)) {
+      //   return cb(new Error('Only image files are allowed!'), false);
+      // }
+      cb(null, filename)
+    }
+  })
+});
 
 // const { Client } = require('pg');
 // const connectionString = process.env.DATABASE_URL || 'respecdlocal';
@@ -26,9 +56,9 @@ app.get('/logout', login.logoutUser);
 
 app.get('/glasses', glasses.getGlasses);
 app.get('/glasses/:glassId', glasses.getSingleGlass);
-app.post('/glasses', glasses.addGlass);
+app.post('/glasses', imageUpload.single('pic'), glasses.addGlass);
 app.put('/glasses/:glassId', glasses.updateGlass);
-app.delete('/glasses/:glassId', glasses.deleteGlass)
+app.delete('/glasses/:glassId', glasses.deleteGlass);
 
 app.get('/frames', frames.getFrames);
 app.get('/frames/:frameId', frames.getSingleFrame);
@@ -37,6 +67,7 @@ app.put('/frames/:frameId', frames.updateFrame);
 app.delete('/frames:frameId', frames.deleteFrame);
 
 app.get('/test', (req, res) => res.send('<h1><marquee>Re-Spec\'d Testtttttt!</marquee></h1>'));
+
 
 app.listen(port, function() {
   console.log("Listening on " + port);
