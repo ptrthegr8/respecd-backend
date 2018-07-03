@@ -22,7 +22,7 @@ function loginUser(req, res, next) {
         console.log(passwordIsValid)
         if (!passwordIsValid) return res.status(401).json({ auth: false, token: null });
         client.query(updateQuery, [parseInt(data.rows[0].userid)]);
-        var token = jwt.sign({ id: data.rows.userid }, config.secret, {
+        var token = jwt.sign({ id: data.rows[0].userid }, config.secret, {
             expiresIn: 86400 // expires in 24 hours
           });
           res.status(200).json({ auth: true, token: token });
