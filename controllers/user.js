@@ -45,7 +45,7 @@ function getUser(req, res, next) {
   
   function updateUser(req, res, next) {
     client.query('update users set firstname=$1, lastname=$2, email=$3, password=$4 where userid=$5',
-      [req.body.firstname, req.body.lastname, req.body.email,req.body.password,
+      [req.body.firstname, req.body.lastname, req.body.email, req.body.password,
          parseInt(req.params.userid)])
       .then(function () {
         res.status(200)
