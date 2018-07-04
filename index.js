@@ -6,6 +6,7 @@ const frames = require("./controllers/frames");
 const glasses = require("./controllers/glasses");
 const login = require("./controllers/login");
 const user = require("./controllers/user");
+
 // image upload stuff
 const AWS = require("aws-sdk");
 const multer = require('multer');
@@ -48,13 +49,21 @@ const imageUpload = multer({
   
 // client.connect();
 
+const passport = require('passport');
+app.use(cors());
+app.use(express.json());
+
+require('./controllers/passport')(passport);  
+app.use(passport.initialize());  
+
+
 const port = process.env.PORT || 3000;
 
 app.post('/register', user.registerUser);
 app.post('/login', login.loginUser);
 app.get('/logout', login.logoutUser);
 
-app.get('/glasses', glasses.getGlasses);
+app.get('/glasses',passport.authenticate('jwt', { session: false }), glasses.getGlasses);
 app.get('/glasses/:glassId', glasses.getSingleGlass);
 app.post('/glasses', imageUpload.single('pic'), glasses.addGlass);
 app.put('/glasses/:glassId', glasses.updateGlass);
