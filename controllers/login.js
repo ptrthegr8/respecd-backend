@@ -3,8 +3,8 @@ const connectionString = process.env.DATABASE_URL || 'respecdlocal';
 const client = new pg.Client(connectionString);
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const config;
-process.env.NODE_ENV !== 'production' ? config = require('../config') : null;
+let config = null;
+config = process.env.NODE_ENV !== 'production' ? (require('../config')) : null;
 
 client.connect();
 

@@ -6,8 +6,8 @@ const frames = require("./controllers/frames");
 const glasses = require("./controllers/glasses");
 const login = require("./controllers/login");
 const user = require("./controllers/user");
-const config;
-process.env.NODE_ENV !== 'production' ? config = require('./config') : null;
+let config = null;
+config = process.env.NODE_ENV !== 'production' ? (require('./config')) : null;
 // image upload stuff
 const AWS = require("aws-sdk");
 const multer = require('multer');
