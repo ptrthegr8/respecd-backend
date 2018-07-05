@@ -29,7 +29,7 @@ const s3 = new AWS.S3();
 const imageUpload = multer({
   storage: multerS3({
     s3: s3,
-    bucket: config.BUCKET_NAME,
+    bucket: process.env.S3_BUCKET_NAME || config.BUCKET_NAME,
     metadata: function (req, file, cb) {
       cb(null, {fieldName: file.fieldname})
     },
