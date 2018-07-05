@@ -3,7 +3,7 @@ var ExtractJwt = require('passport-jwt').ExtractJwt;
 const pg = require('pg');
 const connectionString = process.env.DATABASE_URL || 'respecdlocal';
 const client = new pg.Client(connectionString);
-const config;
+const config = null;
 process.env.NODE_ENV !== 'production' ? config = require('../config') : null;
 
 // Setup work and export for the JWT passport strategy
