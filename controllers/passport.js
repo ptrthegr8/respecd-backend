@@ -11,7 +11,7 @@ module.exports = function(passport) {
   console.log("INside passport") 
   var opts = {};
   opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-  opts.secretOrKey = config.secret;
+  opts.secretOrKey = process.env.PASSPORT_SECRET || config.secret;
   passport.use(new JwtStrategy(opts, function(jwt_payload, done) {  
     console.log("JWT Payload",jwt_payload);  
     let selectQuery = 'select * from users where userid = $1'

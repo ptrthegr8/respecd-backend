@@ -6,7 +6,7 @@ const frames = require("./controllers/frames");
 const glasses = require("./controllers/glasses");
 const login = require("./controllers/login");
 const user = require("./controllers/user");
-
+const config = require("./config.js");
 // image upload stuff
 const AWS = require("aws-sdk");
 const multer = require('multer');
@@ -16,38 +16,28 @@ app.use(cors());
 app.use(express.json());
 
 //variables used to access amazon cloud bucket
-const BUCKET_NAME = 'respecd';
-const IAM_USER_KEY = 'AKIAI5VSK6BGQJ6L4HJQ';
-const IAM_USER_SECRET = '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';
-
-const s3 = new AWS.S3({
-  accessKeyId: IAM_USER_KEY,
-  secretAccessKey: IAM_USER_SECRET,
-  Bucket: BUCKET_NAME
+AWS.config.update({
+  accessKeyId: process.env.S3_KEY || config.IAM_USER_KEY,
+  secretAccessKey: process.env.S3_SECRET || config.IAM_USER_SECRET,
+  region: 'us-east-2'
 });
+
+const s3 = new AWS.S3();
+
 // Adding the uploaded photos to our Amazon S3 bucket
 const imageUpload = multer({
   storage: multerS3({
     s3: s3,
-    bucket: 'respecd',
+    bucket: config.BUCKET_NAME,
     metadata: function (req, file, cb) {
+      cb(null, {fieldName: file.fieldname})
+    },
+    key: function (req, file, cb) {
       const filename = `${Date.now().toString()}--${file.originalname}`
-      // if (!file.originalname.toLowerCase().match(/\.(jpg|jpeg|png|gif)$/)) {
-      //   return cb(new Error('Only image files are allowed!'), false);
-      // }
       cb(null, filename)
     }
   })
 });
-
-// const { Client } = require('pg');
-// const connectionString = process.env.DATABASE_URL || 'respecdlocal';
-// const client = new Client(connectionString);
-  //({"postgres://fbarrottvccelh:03b1c75531e1281c206135c2f4e6ba97d1f70db4ef5477d45c8f58fee483eae3@ec2-23-23-245-89.compute-1.amazonaws.com:5432/deumig2doadmmi?ssl=true",
-  //connectionString: process.env.DATABASE_URL,
-  // ssl: true,})
-  
-// client.connect();
 
 const passport = require('passport');
 app.use(cors());
