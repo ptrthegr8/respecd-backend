@@ -42,9 +42,10 @@ function getGlasses(req, res, next) {
   
   function addGlass(req, res, next) {
     console.log(req.body);
+    console.log(req.file.location);// This is the url for image stored in aws which we will store in the database
     const queryObj = {
     text: "insert into glasses(title, leftsphere, rightsphere, leftcylinder, rightcylinder, rightaxis, leftaxis, add, description, rating, location, image, userid) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)", 
-    values: [req.body.title, req.body.leftsphere, req.body.rightsphere, req.body.leftcylinder, req.body.rightcylinder, req.body.rightaxis, req.body.leftaxis, req.body.add, req.body.description, req.body.rating, req.body.location, req.body.image, req.body.userid]
+    values: [req.body.title, req.body.leftsphere, req.body.rightsphere, req.body.leftcylinder, req.body.rightcylinder, req.body.rightaxis, req.body.leftaxis, req.body.add, req.body.description, req.body.rating, req.body.location, req.file.location, req.body.userid]
     }
     client.query(queryObj)
       .then(function (data) {
@@ -63,7 +64,7 @@ function getGlasses(req, res, next) {
   function updateGlass(req, res, next) {
     const queryObj = {
       text: 'update glasses set title=$1, leftsphere=$2, rightsphere=$3, description=$4, rating=$5 location=$6, image=$7 where glassesid=$8',
-      values: [req.body.title, req.body.leftsphere, req.body.rightsphere, req.body.description, req.body.rating, req.body.location,req.body.image,
+      values: [req.body.title, req.body.leftsphere, req.body.rightsphere, req.body.description, req.body.rating, req.body.location,req.file.location,
         parseInt(req.params.glassId)]
     }
     client.query(queryObj)

@@ -54,19 +54,19 @@ app.post('/register', user.registerUser);
 app.post('/login', login.loginUser);
 app.get('/logout', login.logoutUser);
 
-app.get('/glasses',passport.authenticate('jwt', { session: false }), glasses.getGlasses);
-app.get('/glasses/:glassId', glasses.getSingleGlass);
+app.get('/glasses', glasses.getGlasses);
+app.get('/glasses/:glassId',passport.authenticate('jwt', { session: false }), glasses.getSingleGlass);
 app.post('/glasses', imageUpload.single('pic'), glasses.addGlass);
-app.put('/glasses/:glassId', glasses.updateGlass);
-app.delete('/glasses/:glassId', glasses.deleteGlass);
+app.put('/glasses/:glassId',passport.authenticate('jwt', { session: false }), glasses.updateGlass);
+app.delete('/glasses/:glassId',passport.authenticate('jwt', { session: false }), glasses.deleteGlass);
 
-app.get('/frames', frames.getFrames);
-app.get('/frames/:frameId', frames.getSingleFrame);
-app.post('/frames', frames.addFrame);
-app.put('/frames/:frameId', frames.updateFrame);
-app.delete('/frames:frameId', frames.deleteFrame);
+app.get('/frames',passport.authenticate('jwt', { session: false }), frames.getFrames);
+app.get('/frames/:frameId',passport.authenticate('jwt', { session: false }), frames.getSingleFrame);
+app.post('/frames',passport.authenticate('jwt', { session: false }), frames.addFrame);
+app.put('/frames/:frameId',passport.authenticate('jwt', { session: false }), frames.updateFrame);
+app.delete('/frames:frameId',passport.authenticate('jwt', { session: false }), frames.deleteFrame);
 
-app.get('/test', (req, res) => res.send('<h1><marquee>Re-Spec\'d Testtttttt!</marquee></h1>'));
+app.get('/test', (req, res) => res.send('<h1><marquee>Re-Spec\'d!</marquee></h1>'));
 
 
 app.listen(port, function() {
