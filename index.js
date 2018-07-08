@@ -54,8 +54,8 @@ app.post('/register', user.registerUser);
 app.post('/login', login.loginUser);
 app.get('/logout', login.logoutUser);
 
-app.get('/glasses',passport.authenticate('jwt', { session: false }), glasses.getGlasses);
-app.get('/glasses/:glassId',passport.authenticate('jwt', { session: false }), glasses.getSingleGlass);
+app.get('/glasses',/*passport.authenticate('jwt', { session: false }), */glasses.getGlasses);
+app.get('/glasses/:glassId',/*passport.authenticate('jwt', { session: false }), */glasses.getSingleGlass);
 app.post('/glasses',passport.authenticate('jwt', { session: false }), imageUpload.single('pic'), glasses.addGlass);
 app.put('/glasses/:glassId',passport.authenticate('jwt', { session: false }), glasses.updateGlass);
 app.delete('/glasses/:glassId',passport.authenticate('jwt', { session: false }), glasses.deleteGlass);
