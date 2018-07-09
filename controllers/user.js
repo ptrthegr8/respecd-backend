@@ -1,4 +1,5 @@
 const pg = require('pg');
+const bcrypt = require('bcrypt');
 const connectionString = process.env.DATABASE_URL || 'respecdlocal';
 const client = new pg.Client(connectionString);
 client.connect();
@@ -23,7 +24,7 @@ function getUser(req, res, next) {
   }
   
   function registerUser(req, res, next) {
-    const bcrypt = require('bcrypt');
+    
     bcrypt.hash(req.body.password, 10, function(err, hash) {
         const insertUserQueryObj=  {
           text: 'insert into users(firstname, lastname, email, password) values ($1, $2, $3, $4)',

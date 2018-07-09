@@ -35,7 +35,8 @@ const imageUpload = multer({
     },
     key: function (req, file, cb) {
       const filename = `${Date.now().toString()}--${file.originalname}`
-      cb(null, filename)
+      cb(null, filename);
+      console.log("Inside image upload")
     }
   })
 });
@@ -62,7 +63,7 @@ app.delete('/glasses/:glassId',passport.authenticate('jwt', { session: false }),
 
 app.get('/frames',passport.authenticate('jwt', { session: false }), frames.getFrames);
 app.get('/frames/:frameId',passport.authenticate('jwt', { session: false }), frames.getSingleFrame);
-app.post('/frames',passport.authenticate('jwt', { session: false }), frames.addFrame);
+app.post('/frames',passport.authenticate('jwt', { session: false }),imageUpload.single('pic'), frames.addFrame);
 app.put('/frames/:frameId',passport.authenticate('jwt', { session: false }), frames.updateFrame);
 app.delete('/frames:frameId',passport.authenticate('jwt', { session: false }), frames.deleteFrame);
 
