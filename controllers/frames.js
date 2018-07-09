@@ -41,9 +41,10 @@ function getFrames(req, res, next) {
   }
   
   function addFrame(req, res, next) {
+    console.log(req.body)
     const queryObj = {
       text: 'insert into frames(title, description, location, image, userid) values ($1, $2, $3, $4, $5)',
-      values: [req.body.title, req.body.description, req.body.location, req.body.image, req.body.userid]
+      values: [req.body.title, req.body.description, req.body.location, req.file?req.file.location:'', req.body.userid]
     }
     client.query(queryObj)
       .then(function () {
