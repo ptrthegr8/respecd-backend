@@ -13,7 +13,7 @@ function getFrames(req, res, next) {
         res.status(200)
           .json({
             status: 'success',
-            data: data,
+            data: data.rows,
             message: 'Retrieved ALL Frames'
           });
       })
@@ -29,7 +29,7 @@ function getFrames(req, res, next) {
         res.status(200)
           .json({
             status: 'success',
-            data: data,
+            data: data.rows,
             message: 'Retrieved ONE Frame'
           });
       })
