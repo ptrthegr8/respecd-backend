@@ -63,12 +63,11 @@ app.delete('/glasses/:glassId',passport.authenticate('jwt', { session: false }),
 
 app.get('/frames', frames.getFrames);
 app.get('/frames/:frameId', frames.getSingleFrame);
-app.post('/frames',passport.authenticate('jwt', { session: false }),imageUpload.single('pic'), frames.addFrame);
+app.post('/frames',passport.authenticate('jwt', { session: false }),imageUpload.single('frameimage'), frames.addFrame);
 app.put('/frames/:frameId',passport.authenticate('jwt', { session: false }), frames.updateFrame);
 app.delete('/frames:frameId',passport.authenticate('jwt', { session: false }), frames.deleteFrame);
 
 app.get('/test', (req, res) => res.send('<h1><marquee>Re-Spec\'d!</marquee></h1>'));
-
 
 app.listen(port, function() {
   console.log("Listening on " + port);

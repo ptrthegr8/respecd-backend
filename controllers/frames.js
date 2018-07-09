@@ -3,8 +3,6 @@ const connectionString = process.env.DATABASE_URL || 'respecdlocal';
 const client = new pg.Client(connectionString);
 client.connect();
 
-//   connectionString: "postgres://fbarrottvccelh:03b1c75531e1281c206135c2f4e6ba97d1f70db4ef5477d45c8f58fee483eae3@ec2-23-23-245-89.compute-1.amazonaws.com:5432/deumig2doadmmi?ssl=true",//process.env.DATABASE_URL,
-//   ssl: true,
 
 function getFrames(req, res, next) {
   console.log(process.env.DATABASE_URL);
@@ -41,10 +39,10 @@ function getFrames(req, res, next) {
   }
   
   function addFrame(req, res, next) {
-    console.log(req.body)
+    console.log("Body before insert ", req.body);
     const queryObj = {
-      text: 'insert into frames(title, condition,description, location, image, userid) values ($1, $2, $3, $4, $5, $6)',
-      values: [req.body.title,req.body.condition, req.body.description, req.body.location, req.file?req.file.location:'', req.body.userid]
+      text: 'insert into frames(title,condition,description, location, image, userid) values ($1, $2, $3, $4, $5, $6)',
+      values: [req.body.title,req.body.condition, req.body.description, req.body.location, req.file?req.file.location:'Noimage', req.body.userid]
     }
     client.query(queryObj)
       .then(function () {
