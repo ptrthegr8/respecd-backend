@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS glasses(
   leftaxis INTEGER,
   add NUMERIC (4, 2),
   description VARCHAR(500),
-  rating INTEGER,
+  condition INTEGER,
   location VARCHAR(50),
   image VARCHAR(500),
   userid INTEGER REFERENCES users(userid)
@@ -33,9 +33,11 @@ CREATE TABLE IF NOT EXISTS frames(
   frameid serial PRIMARY KEY,
   title VARCHAR(100) NOT NULL,
   description VARCHAR(500),
-  rating INTEGER,
+  condition INTEGER,
   location VARCHAR(50),
   image VARCHAR(500),
+  latitude FLOAT,
+  longitude FLOAT,
   userid INTEGER REFERENCES users(userid)
 );
 

@@ -43,8 +43,8 @@ function getFrames(req, res, next) {
   function addFrame(req, res, next) {
     console.log(req.body)
     const queryObj = {
-      text: 'insert into frames(title, description, location, image, userid) values ($1, $2, $3, $4, $5)',
-      values: [req.body.title, req.body.description, req.body.location, req.file?req.file.location:'', req.body.userid]
+      text: 'insert into frames(title, condition,description, location, image, userid) values ($1, $2, $3, $4, $5, $6)',
+      values: [req.body.title,req.body.condition, req.body.description, req.body.location, req.file?req.file.location:'', req.body.userid]
     }
     client.query(queryObj)
       .then(function () {
@@ -60,8 +60,8 @@ function getFrames(req, res, next) {
   }
   
   function updateFrame(req, res, next) {
-    client.query('update frames set title=$1, description=$2, location=$3, image=$4 where frameid=$5',
-      [req.body.title, req.body.description, req.body.location,req.body.image,
+    client.query('update frames set title=$1, condition=$2, description=$2, location=$4, image=$5 where frameid=$6',
+      [req.body.title, req.body.condition, req.body.description, req.body.location,req.body.image,
          parseInt(req.params.frameId)])
       .then(function () {
         res.status(200)

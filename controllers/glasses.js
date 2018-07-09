@@ -44,8 +44,8 @@ function getGlasses(req, res, next) {
     console.log("req.body",req.body);
     //console.log(req.file.location);// This is the url for image stored in aws which we will store in the database
     const queryObj = {
-    text: "insert into glasses(title, leftsphere, rightsphere, leftcylinder, rightcylinder, rightaxis, leftaxis, add, description, rating, location, image, userid) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)", 
-    values: [req.body.title, req.body.leftsphere, req.body.rightsphere, req.body.leftcylinder, req.body.rightcylinder, req.body.rightaxis, req.body.leftaxis, req.body.add, req.body.description, req.body.rating, req.body.location,req.file?req.file.location:'', req.body.userid]
+    text: "insert into glasses(title, leftsphere, rightsphere, leftcylinder, rightcylinder, rightaxis, leftaxis, add, description, condition, location, image, userid) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)", 
+    values: [req.body.title, req.body.leftsphere, req.body.rightsphere, req.body.leftcylinder, req.body.rightcylinder, req.body.rightaxis, req.body.leftaxis, req.body.add, req.body.description, req.body.condition, req.body.location,req.file?req.file.location:'', req.body.userid]
     }
     client.query(queryObj)
       .then(function (data) {
@@ -63,8 +63,8 @@ function getGlasses(req, res, next) {
   
   function updateGlass(req, res, next) {
     const queryObj = {
-      text: 'update glasses set title=$1, leftsphere=$2, rightsphere=$3, leftcylinder=$4, rightcylinder=$5, rightaxis=$6, leftaxis=$7, add=$8, description=$9, rating=$10 location=$11, image=$12 where glassesid=$13',
-      values: [req.body.title, req.body.leftsphere, req.body.rightsphere, req.body.leftcylinder, req.body.rightcylinder, req.body.rightaxis, req.body.leftaxis, req.body.add, req.body.description, req.body.rating, req.body.location, /*req.file.location*/"",
+      text: 'update glasses set title=$1, leftsphere=$2, rightsphere=$3, leftcylinder=$4, rightcylinder=$5, rightaxis=$6, leftaxis=$7, add=$8, description=$9, condition=$10 location=$11, image=$12 where glassesid=$13',
+      values: [req.body.title, req.body.leftsphere, req.body.rightsphere, req.body.leftcylinder, req.body.rightcylinder, req.body.rightaxis, req.body.leftaxis, req.body.add, req.body.description, req.body.condition, req.body.location, /*req.file.location*/"",
         parseInt(req.params.glassId)]
     }
     client.query(queryObj)
