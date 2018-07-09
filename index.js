@@ -12,7 +12,7 @@ config = process.env.NODE_ENV !== 'production' ? (require('./config')) : null;
 const AWS = require("aws-sdk");
 const multer = require('multer');
 const multerS3 = require('multer-s3');
-//
+
 app.use(cors());
 app.use(express.json());
 
@@ -55,14 +55,14 @@ app.post('/register', user.registerUser);
 app.post('/login', login.loginUser);
 app.get('/logout', login.logoutUser);
 
-app.get('/glasses',passport.authenticate('jwt', { session: false }), glasses.getGlasses);
-app.get('/glasses/:glassId',passport.authenticate('jwt', { session: false }), glasses.getSingleGlass);
+app.get('/glasses', glasses.getGlasses);
+app.get('/glasses/:glassId', glasses.getSingleGlass);
 app.post('/glasses',passport.authenticate('jwt', { session: false }), imageUpload.single('pic'), glasses.addGlass);
 app.put('/glasses/:glassId',passport.authenticate('jwt', { session: false }), glasses.updateGlass);
 app.delete('/glasses/:glassId',passport.authenticate('jwt', { session: false }), glasses.deleteGlass);
 
-app.get('/frames',passport.authenticate('jwt', { session: false }), frames.getFrames);
-app.get('/frames/:frameId',passport.authenticate('jwt', { session: false }), frames.getSingleFrame);
+app.get('/frames', frames.getFrames);
+app.get('/frames/:frameId', frames.getSingleFrame);
 app.post('/frames',passport.authenticate('jwt', { session: false }),imageUpload.single('pic'), frames.addFrame);
 app.put('/frames/:frameId',passport.authenticate('jwt', { session: false }), frames.updateFrame);
 app.delete('/frames:frameId',passport.authenticate('jwt', { session: false }), frames.deleteFrame);
