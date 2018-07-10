@@ -29,7 +29,7 @@ function loginUser(req, res, next) {
           email:data.rows[0].email
         }
         client.query(updateQuery, [parseInt(data.rows[0].userid)]);
-        var token = jwt.sign({ id: data.rows[0].userid }, config.secret, {
+        var token = jwt.sign({ id: data.rows[0].userid }, process.env.PASSPORT_SECRET || config.secret, {
             expiresIn: 86400 // expires in 24 hours
           });
           res.status(200).json({ auth: true, token: token ,user:user});
