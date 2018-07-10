@@ -26,7 +26,8 @@ function getGlasses(req, res, next) {
   
   function getSingleGlass(req, res, next) {
     var glassId = parseInt(req.params.glassId);
-    client.query('select * from glasses where glassesid = $1', [glassId])
+    client.query('Select g.*, u.email from glasses g , users u where g.userid = u.userid and g.glassesid = $1', [glassId])
+
       .then(function (data) {
         res.status(200)
           .json({
