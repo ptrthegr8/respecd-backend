@@ -24,7 +24,7 @@ function getFrames(req, res, next) {
   
   function getSingleFrame(req, res, next) {
     var frameId = parseInt(req.params.frameId);
-    client.query('select * from frames where frameid = $1', [frameId])
+    client.query('Select f.*, u.email from frames f , users u where f.userid = u.userid and f.frameid = $1;', [frameId])
       .then(function (data) {
         res.status(200)
           .json({

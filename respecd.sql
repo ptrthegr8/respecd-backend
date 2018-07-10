@@ -26,7 +26,8 @@ CREATE TABLE IF NOT EXISTS glasses(
   condition INTEGER,
   location VARCHAR(50),
   image VARCHAR(500),
-  userid INTEGER REFERENCES users(userid)
+  userid INTEGER REFERENCES users(userid),
+  
 );
 
 CREATE TABLE IF NOT EXISTS frames(
